@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Management API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 400px;
+            margin: 50px auto;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Task Management</h2>
+
+<input type="text" id="taskInput" placeholder="Enter task">
+<button onclick="addTask()">Add Task</button>
+
+<ul id="taskList"></ul>
+
+<script>
+let tasks = [];
+
+function addTask() {
+    let taskInput = document.getElementById("taskInput");
+    let task = taskInput.value;
+
+    if (task === "") {
+        alert("Enter a task");
+        return;
+    }
+
+    tasks.push({
+        name: task,
+        completed: false
+    });
+
+    taskInput.value = "";
+    displayTasks();
+}
+
+function displayTasks() {
+    let list = document.getElementById("taskList");
+    list.innerHTML = "";
+
+    tasks.forEach((task, index) => {
+        list.innerHTML += `
+            <li class="${task.completed ? 'completed' : ''}">
+                ${task.name}
+                <button onclick="completeTask(${index})">Complete</button>
+                <button onclick="deleteTask(${index})">Delete</button>
+            </li>
+        `;
+    });
+}
+
+function completeTask(index) {
+    tasks[index].completed = true;
+    displayTasks();
+}
+
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    displayTasks();
+}
+</script>
+
+</body>
+</html>
